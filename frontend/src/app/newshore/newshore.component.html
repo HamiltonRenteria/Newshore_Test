@@ -1,0 +1,73 @@
+<h1>VUELOS</h1>
+<div style="padding: 25px; background-color: beige;" >
+  <form [formGroup]="formSearchJourneys" style="padding-top: 10px;" (ngSubmit)="searchJourneys()">
+    <fieldset>
+      <div style="display: inline-block; width: 60%; vertical-align: top;">
+        <div class="form-group row">
+          <label class="control-label col-md-2">Origen</label>
+          <div class="col-md-6">
+              <input type="text" class="form-control" formControlName="Origin" [maxlength]="3"
+              oninput="this.value = this.value.toUpperCase();">
+          </div>
+        </div>
+        <div class="form-group row" style="padding-top: 10px;">
+          <label class="control-label col-md-2">Destino</label>
+          <div class="col-md-6">
+              <input type="text" class="form-control" formControlName="Destination" [maxlength]="3"
+              oninput="this.value = this.value.toUpperCase();">
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <div class="form-group" style="padding-top: 10px;">
+      <button class="btn btn-success float-right" [disabled]="formSearchJourneys.invalid"><i class="fas fa-save"></i>Consultar</button>
+    </div>
+  </form>
+
+  <div class="row" style="padding-top: 15px;">
+    <div class="spinner-border text-primary" role="status" *ngIf="loading">
+      <span class="sr-only"></span>
+    </div>
+    <br>
+    <br>
+    <table class="table" *ngIf="!seeRoutes">
+      <thead>
+        <th>Origen</th>
+        <th>Destino</th>
+        <th>Precio</th>
+        <th>Rutas</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let journeys of listJourneys">
+        <td>{{ journeys.journey.origin }}</td>
+        <td>{{ journeys.journey.destination }}</td>
+        <td>{{ journeys.journey.price }}</td>
+        <td><button class="btn btn-warning btn-sm float-right" (click)="seeFlights(journeys.journey.flights)" title="Eliminar"><i class="fas fa-trash-alt"></i>Ver rutas</button></td>
+      </tr>
+    </tbody>
+    </table>
+    <br>
+    <h3 *ngIf="seeRoutes">Rutas</h3>
+    <br>
+    <table class="table" *ngIf="seeRoutes">
+      <thead>
+        <th>Origen</th>
+        <th>Destino</th>
+        <th>Precio</th>
+        <th>Transporte</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let flight of listFlights">
+        <td>{{ flight.origin }}</td>
+        <td>{{ flight.destination }}</td>
+        <td>{{ flight.price }}</td>
+        <td>
+          Transportista aéreo: {{ flight.transport.flightCarrier }}
+          <br>
+          Numero de Vuelo: {{ flight.transport.flightNumber }}
+        </td>
+      </tr>
+    </tbody>
+    </table>
+  </div>
+</div>
